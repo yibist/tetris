@@ -16,4 +16,12 @@ public enum BlockTypes {
         this.cornerCount = cornerCount;
         this.imageLoc = imageLoc;
     }
+
+    public int getCornerCount() {
+        return cornerCount;
+    }
+
+    public String getImageLoc() {
+        return imageLoc;
+    }
 }
