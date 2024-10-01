@@ -25,3 +25,5 @@ replay_pid*
 
 .idea
 build
+src/main/resources
+target
