@@ -1,31 +1,51 @@
 package com.tetris;
 
 import javafx.application.Application;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
 
 
 public class UI extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+    Pane pane = new Pane();
+    Scene gameScene = new Scene(pane);
+    Block currentBlock;
+    BlockTypes nextBlockType;
+    ArrayList<Block> placedBlocks = new ArrayList<>();
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Tetris");
-        StackPane root = new StackPane();
-        primaryStage.setScene(new Scene(root, 300, 300));
+    public void start(Stage gameStage) throws Exception {
+        setUI(gameStage);
+        gameLoop();
+    }
 
-        Image tile = new Image("tile.png", 16.0d, 16.0d, true, true);
-        ImageView tileView = new ImageView(tile);
-        tileView.setX(1);
-        tileView.setY(1);
-        tileView.setFitWidth(16.0d);
+    private void setUI (Stage gameStage) {
+        gameStage.setTitle("Tetris");
+        gameStage.setMinHeight(0);
+        gameStage.setMinWidth(0);
+        gameStage.setScene(gameScene);
+        gameStage.show();
+    }
 
-        primaryStage.show();
+    private void gameLoop() {
+        while (true) {
+
+        }
+    }
+
+    private void placeBlock() {
+        placedBlocks.add(currentBlock);
+        currentBlock = new Block(nextBlockType);
+
+
+        // block check
+        // new block to next block
     }
 }
