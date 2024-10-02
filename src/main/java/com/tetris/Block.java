@@ -1,13 +1,16 @@
 package com.tetris;
 
-public class block {
+import java.lang.reflect.Type;
+
+public class Block {
     private int[] cornerArr;
+    private Tile[] tiles;
     private int rotation;
     private BlockTypes type;
 
-    public block(BlockTypes type) {
+    public Block(BlockTypes type) {
         this.type = type;
-        cornerArr = new int[this.type.getCornerCount()];
+        cornerArr = new int[type.getCornerCount()];
         rotation = 0;
     }
 
@@ -23,5 +26,9 @@ public class block {
             rotation = 0;
         }
         return rotation;
+    }
+
+    public String getImageLocation() {
+        return type.getImageLoc();
     }
 }
