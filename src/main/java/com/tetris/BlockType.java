@@ -1,5 +1,6 @@
 package com.tetris;
 
+import java.util.LinkedList;
 import java.util.Random;
 
 public enum BlockType {
@@ -19,7 +20,7 @@ public enum BlockType {
         this.imageLoc = imageLoc;
     }
 
-    public BlockType getRandomBlockType() throws Exception {
+    public static BlockType getRandomBlockType() throws Exception {
         int randInt = new Random().nextInt(7);
         switch(randInt){
             case 0: return BlockType.LShape;
@@ -29,6 +30,55 @@ public enum BlockType {
             case 4: return BlockType.ZShape;
             case 5: return BlockType.ZShapeFlipped;
             case 6: return BlockType.Square;
+            default: throw new Exception("No such block type associated with number: "+randInt);
+        }
+    }
+
+    public static BlockType getRandomBlockType(LinkedList<BlockType> lastElements) throws Exception {
+        int randInt = new Random().nextInt(7);
+        switch(randInt){
+            case 0: {
+                if(lastElements.contains(BlockType.LShape)){
+                    return getRandomBlockType();
+                }
+                return BlockType.LShape;
+            }
+            case 1: {
+                if(lastElements.contains(BlockType.LShapeFlipped)){
+                    return getRandomBlockType();
+                }
+                return BlockType.LShapeFlipped;
+            }
+            case 2: {
+                if(lastElements.contains(BlockType.TShape)){
+                    return getRandomBlockType();
+                }
+                return BlockType.TShape;
+            }
+            case 3: {
+                if(lastElements.contains(BlockType.Straight)){
+                    return getRandomBlockType();
+                }
+                return BlockType.Straight;
+            }
+            case 4: {
+                if(lastElements.contains(BlockType.ZShape)){
+                    return getRandomBlockType();
+                }
+                return BlockType.ZShape;
+            }
+            case 5: {
+                if(lastElements.contains(BlockType.ZShapeFlipped)){
+                    return getRandomBlockType();
+                }
+                return BlockType.ZShapeFlipped;
+            }
+            case 6: {
+                if(lastElements.contains(BlockType.Square)){
+                    return getRandomBlockType();
+                }
+                return BlockType.Square;
+            }
             default: throw new Exception("No such block type associated with number: "+randInt);
         }
     }
