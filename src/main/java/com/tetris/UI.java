@@ -2,12 +2,11 @@ package com.tetris;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 
 public class UI extends Application {
@@ -17,8 +16,9 @@ public class UI extends Application {
     Pane pane = new Pane();
     Scene gameScene = new Scene(pane);
     Block currentBlock;
-    BlockTypes nextBlockType;
+    BlockType nextBlockType;
     ArrayList<Block> placedBlocks = new ArrayList<>();
+    LinkedList<BlockType> lastBlockTypes = new LinkedList<>();
 
     @Override
     public void start(Stage gameStage) throws Exception {
@@ -43,6 +43,7 @@ public class UI extends Application {
     private void placeBlock() {
         placedBlocks.add(currentBlock);
         currentBlock = new Block(nextBlockType);
+        new Block(BlockType.LShape);
 
 
         // block check

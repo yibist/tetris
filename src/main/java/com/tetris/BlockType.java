@@ -1,6 +1,6 @@
 package com.tetris;
 
-public enum BlockTypes {
+public enum BlockType {
     LShape(6, "LShape.png"),
     LShapeFlipped(6, "LShapeFlipped.png"),
     TShape(6, "TShape.png"),
@@ -12,7 +12,7 @@ public enum BlockTypes {
     private final int cornerCount;
     private final String imageLoc;
 
-    BlockTypes(int cornerCount, String imageLoc) {
+    BlockType(int cornerCount, String imageLoc) {
         this.cornerCount = cornerCount;
         this.imageLoc = imageLoc;
     }

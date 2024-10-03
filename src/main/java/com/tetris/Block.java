@@ -1,14 +1,12 @@
 package com.tetris;
 
-import java.lang.reflect.Type;
-
 public class Block {
     private int[] cornerArr;
     private Tile[] tiles;
     private int rotation;
-    private BlockTypes type;
+    private BlockType type;
 
-    public Block(BlockTypes type) {
+    public Block(BlockType type) {
         this.type = type;
         cornerArr = new int[type.getCornerCount()];
         rotation = 0;
