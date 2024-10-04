@@ -10,6 +10,8 @@ import java.util.LinkedList;
 
 
 public class UI extends Application {
+    private static boolean running = false;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -35,8 +37,8 @@ public class UI extends Application {
     }
 
     private void gameLoop() {
-        while (true) {
-
+        while (running) {
+            
         }
     }
 
