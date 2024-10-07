@@ -66,6 +66,7 @@ public class UI extends Application {
         task.setOnSucceeded(event -> {
             // game step
             // draw
+            pane.getChildren().clear();
             currentBlock.drawT(pane);
             try {
                 NewBlock();
