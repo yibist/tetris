@@ -58,8 +58,7 @@ public class UI extends Application {
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
-                Thread.sleep(1000);
-                //Thread.sleep(25);
+                Thread.sleep(25);
                 return null;
             }
         };
@@ -74,7 +73,7 @@ public class UI extends Application {
                 throw new RuntimeException(e);
             }
             //TODO Figure out how tf multithreading works to avoid doing this
-            if (running) gameLoop(); System.out.println("looped");
+            if (running) gameLoop();
         });
         new Thread(task).start();
     }
