@@ -36,10 +36,6 @@ public class Block {
         return rotation;
     }
 
-    public String getImageLocation() {
-        return type.getImageLoc();
-    }
-
     public BlockType getBlockType() {
         return type;
     }
@@ -55,6 +51,15 @@ public class Block {
             for (Tile tile : tiles) {
                 tile.move(direction);
             }
+        }
+    }
+
+    public void move(String direction, Tile[] tiles) {
+        if (moving) {
+            for (Tile tile : tiles) {
+                tile.move(direction);
+            }
+            checkCollision(tiles);
         }
     }
 

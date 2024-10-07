@@ -1,5 +1,6 @@
 package com.tetris;
 
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.scene.Group;
@@ -51,20 +52,18 @@ public class UI extends Application {
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
-                    // game step
-                Thread.sleep(10);
-                    // draw
+                Thread.sleep(25);
                 return null;
             }
         };
         task.setOnSucceeded(event -> {
-                currentBlock.drawT(pane);
-                if (running) {
-                    new Thread(task).start();
-                }
+            // game step
+            // draw
+            currentBlock.drawT(pane);
+            //TODO Figure out how tf multithreading works to avoid doing this
+            if (running) gameLoop();
         });
-
-        new Thread(task).run();
+        new Thread(task).start();
     }
 
     private void placeBlock() throws Exception {

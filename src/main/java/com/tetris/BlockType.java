@@ -4,34 +4,34 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public enum BlockType {
-    LShape(6, "LShape.png"),
-    LShapeFlipped(6, "LShapeFlipped.png"),
-    TShape(6, "TShape.png"),
-    Straight(4, "Straight.png"),
-    ZShape(6, "ZShape.png"),
-    ZShapeFlipped(6, "ZShapeFlipped.png"),
-    Square(4, "Square.png");
+    LShape(4, new int[][]{{3,0}, {4,0}, {5,0}, {5,1}}),
+    LShapeFlipped(4, new int[][]{{3,0}, {4,0}, {5,0}, {3,1}}),
+    TShape(4, new int[][]{{3,0}, {4,0}, {5,0}, {4,1}}),
+    Straight(4, new int[][]{{3,0}, {4,0}, {5,0}, {6,0}}),
+    ZShape(4, new int[][]{{3,0}, {4,0}, {4,1}, {5,1}}),
+    ZShapeFlipped(4, new int[][]{{3,1}, {4,1}, {4,0}, {5,0}}),
+    Square(4, new int[][]{{4,0}, {5,0}, {4,1}, {5,1}});
 
-    private final int cornerCount;
-    private final String imageLoc;
+    private final int tileCount;
+    public final int[][] initialTilePositions;
 
-    BlockType(int cornerCount, String imageLoc) {
-        this.cornerCount = cornerCount;
-        this.imageLoc = imageLoc;
+    BlockType(int tileCount, int[][] intitialTilePositions) {
+        this.tileCount = tileCount;
+        this.initialTilePositions = intitialTilePositions;
     }
 
     public static BlockType getRandomBlockType() throws Exception {
         int randInt = new Random().nextInt(7);
-        switch(randInt){
-            case 0: return BlockType.LShape;
-            case 1: return BlockType.LShapeFlipped;
-            case 2: return BlockType.TShape;
-            case 3: return BlockType.Straight;
-            case 4: return BlockType.ZShape;
-            case 5: return BlockType.ZShapeFlipped;
-            case 6: return BlockType.Square;
-            default: throw new Exception("No such block type associated with number: "+randInt);
-        }
+        return switch (randInt) {
+            case 0 -> BlockType.LShape;
+            case 1 -> BlockType.LShapeFlipped;
+            case 2 -> BlockType.TShape;
+            case 3 -> BlockType.Straight;
+            case 4 -> BlockType.ZShape;
+            case 5 -> BlockType.ZShapeFlipped;
+            case 6 -> BlockType.Square;
+            default -> throw new Exception("No such block type associated with number: " + randInt);
+        };
     }
 
     public static BlockType getRandomBlockType(LinkedList<BlockType> lastElements) throws Exception {
@@ -39,58 +39,54 @@ public enum BlockType {
             return getRandomBlockType();
         }
         int randInt = new Random().nextInt(7);
-        switch(randInt){
-            case 0: {
-                if(lastElements.contains(BlockType.LShape)){
-                    return getRandomBlockType(lastElements);
+        return switch (randInt) {
+            case 0 -> {
+                if (lastElements.contains(BlockType.LShape)) {
+                    yield getRandomBlockType(lastElements);
                 }
-                return BlockType.LShape;
+                yield BlockType.LShape;
             }
-            case 1: {
-                if(lastElements.contains(BlockType.LShapeFlipped)){
-                    return getRandomBlockType(lastElements);
+            case 1 -> {
+                if (lastElements.contains(BlockType.LShapeFlipped)) {
+                    yield getRandomBlockType(lastElements);
                 }
-                return BlockType.LShapeFlipped;
+                yield BlockType.LShapeFlipped;
             }
-            case 2: {
-                if(lastElements.contains(BlockType.TShape)){
-                    return getRandomBlockType(lastElements);
+            case 2 -> {
+                if (lastElements.contains(BlockType.TShape)) {
+                    yield getRandomBlockType(lastElements);
                 }
-                return BlockType.TShape;
+                yield BlockType.TShape;
             }
-            case 3: {
-                if(lastElements.contains(BlockType.Straight)){
-                    return getRandomBlockType(lastElements);
+            case 3 -> {
+                if (lastElements.contains(BlockType.Straight)) {
+                    yield getRandomBlockType(lastElements);
                 }
-                return BlockType.Straight;
+                yield BlockType.Straight;
             }
-            case 4: {
-                if(lastElements.contains(BlockType.ZShape)){
-                    return getRandomBlockType(lastElements);
+            case 4 -> {
+                if (lastElements.contains(BlockType.ZShape)) {
+                    yield getRandomBlockType(lastElements);
                 }
-                return BlockType.ZShape;
+                yield BlockType.ZShape;
             }
-            case 5: {
-                if(lastElements.contains(BlockType.ZShapeFlipped)){
-                    return getRandomBlockType(lastElements);
+            case 5 -> {
+                if (lastElements.contains(BlockType.ZShapeFlipped)) {
+                    yield getRandomBlockType(lastElements);
                 }
-                return BlockType.ZShapeFlipped;
+                yield BlockType.ZShapeFlipped;
             }
-            case 6: {
-                if(lastElements.contains(BlockType.Square)){
-                    return getRandomBlockType(lastElements);
+            case 6 -> {
+                if (lastElements.contains(BlockType.Square)) {
+                    yield getRandomBlockType(lastElements);
                 }
-                return BlockType.Square;
+                yield BlockType.Square;
             }
-            default: throw new Exception("No such block type associated with number: "+randInt);
-        }
+            default -> throw new Exception("No such block type associated with number: " + randInt);
+        };
     }
 
-    public int getCornerCount() {
-        return cornerCount;
-    }
-
-    public String getImageLoc() {
-        return imageLoc;
+    public int getTileCount() {
+        return tileCount;
     }
 }
