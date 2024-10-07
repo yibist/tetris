@@ -7,14 +7,12 @@ import javafx.scene.layout.Pane;
 public class Tile {
     public int x;
     public int y;
-    public int speed;
     public int size;
     public static Image image = new Image("Tile.png", 32.0d, 32.0d, true, true);
 
-    Tile(int x, int y, int speed, int size) {
-        this.x = x;
-        this.y = y;
-        this.speed = speed;
+    Tile(int x, int y, int size) {
+        this.x = x*size;
+        this.y = y*size;
         this.size = size;
     }
 
@@ -28,9 +26,9 @@ public class Tile {
 
     public void move(String direction) {
         switch (direction) {
-            case "down": y += speed; break;
-            case "left": x -= speed; break;
-            case "right": x += speed; break;
+            case "down": y += size; break;
+            case "left": x -= size; break;
+            case "right": x += size; break;
         }
     }
 }

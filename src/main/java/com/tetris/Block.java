@@ -11,14 +11,17 @@ public class Block {
     public int y;
     public boolean moving = true;
 
-    public Block(BlockType type) {
+    public Block(BlockType type, int x, int y) {
         this.type = type;
-        this.tiles = new Tile[] {
-                new Tile(1,1,1,1),
-                new Tile(2,1,1,1),
-                new Tile(3,1,1,1),
-                new Tile(4,1,1,1),
-        };
+        this.x = x;
+        this.y = y;
+
+        tiles = new Tile[type.getTileCount()];
+
+        for (int i = 0; i < this.type.initialTilePositions.length; i++){
+            tiles[i] = new Tile(type.initialTilePositions[i][0]+this.x, type.initialTilePositions[i][1]+this.y,32);
+        }
+
         rotation = 0;
     }
 

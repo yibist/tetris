@@ -40,19 +40,26 @@ public class UI extends Application {
         gameStage.setScene(gameScene);
         gameStage.show();
 
-        // don't know how to initialize a linked list with values
-        lastBlockTypes.add(BlockType.TShape);
-        lastBlockTypes.add(null);
-        lastBlockTypes.add(null);
+        NewBlock();
+    }
 
-        currentBlock = new Block(BlockType.getRandomBlockType());
+    private void NewBlock() throws Exception {
+        BlockType currentBlockType = BlockType.getRandomBlockType(lastBlockTypes);
+        currentBlock = new Block(currentBlockType, 0,0);
+        if (lastBlockTypes.size() >= 3) {
+            lastBlockTypes.removeFirst();
+            lastBlockTypes.add(currentBlockType);
+        } else {
+            lastBlockTypes.add(currentBlockType);
+        }
     }
 
     private void gameLoop() {
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
-                Thread.sleep(25);
+                Thread.sleep(1000);
+                //Thread.sleep(25);
                 return null;
             }
         };
@@ -60,8 +67,13 @@ public class UI extends Application {
             // game step
             // draw
             currentBlock.drawT(pane);
+            try {
+                NewBlock();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
             //TODO Figure out how tf multithreading works to avoid doing this
-            if (running) gameLoop();
+            if (running) gameLoop(); System.out.println("looped");
         });
         new Thread(task).start();
     }
@@ -70,7 +82,7 @@ public class UI extends Application {
         placedBlocks.add(currentBlock);
         lastBlockTypes.add(currentBlock.getBlockType());
         lastBlockTypes.removeFirst();
-        currentBlock = new Block(BlockType.getRandomBlockType(lastBlockTypes));
+        currentBlock = new Block(BlockType.getRandomBlockType(lastBlockTypes), 0, 0);
 
 
         // block check
