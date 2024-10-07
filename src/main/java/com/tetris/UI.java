@@ -28,23 +28,39 @@ public class UI extends Application {
         gameLoop();
     }
 
-    private void setUI (Stage gameStage) {
+    private void setUI (Stage gameStage) throws Exception {
         gameStage.setTitle("Tetris");
         gameStage.setMinHeight(0);
         gameStage.setMinWidth(0);
         gameStage.setScene(gameScene);
         gameStage.show();
+
+        // don't know how to initialize a linked list with values
+        lastBlockTypes.add(BlockType.TShape);
+        lastBlockTypes.add(null);
+        lastBlockTypes.add(null);
+
+
+        currentBlock = new Block(BlockType.getRandomBlockType());
+
+        placeBlock();
     }
 
     private void gameLoop() {
         while (running) {
+
+
+            // game step
+
+            // draw
         }
     }
 
-    private void placeBlock() {
+    private void placeBlock() throws Exception {
         placedBlocks.add(currentBlock);
-        currentBlock = new Block(nextBlockType);
-        new Block(BlockType.LShape);
+        lastBlockTypes.add(currentBlock.getBlockType());
+        lastBlockTypes.removeFirst();
+        currentBlock = new Block(BlockType.getRandomBlockType(lastBlockTypes));
 
 
         // block check

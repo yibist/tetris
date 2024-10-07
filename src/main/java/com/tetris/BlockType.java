@@ -10,7 +10,7 @@ public enum BlockType {
     Straight(4, "Straight.png"),
     ZShape(6, "ZShape.png"),
     ZShapeFlipped(6, "ZShapeFlipped.png"),
-    Square(4, "Square.png"),;
+    Square(4, "Square.png");
 
     private final int cornerCount;
     private final String imageLoc;
