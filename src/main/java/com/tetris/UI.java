@@ -68,11 +68,11 @@ public class UI extends Application {
             // draw
             pane.getChildren().clear();
             currentBlock.drawT(pane);
-            /*try {
+            try {
                 NewBlock();
             } catch (Exception e) {
                 throw new RuntimeException(e);
-            }*/
+            }
             //TODO Figure out how tf multithreading works to avoid doing this
             if (running) gameLoop();
         });
