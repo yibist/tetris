@@ -1,6 +1,8 @@
 package com.tetris;
 
 import javafx.application.Application;
+import javafx.concurrent.Task;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -10,12 +12,14 @@ import java.util.LinkedList;
 
 
 public class UI extends Application {
-    private static boolean running = false;
+    private static boolean running = true;
 
     public static void main(String[] args) {
         launch(args);
     }
+
     Pane pane = new Pane();
+    Group root = new Group();
     Scene gameScene = new Scene(pane);
     Block currentBlock;
     BlockType nextBlockType;
@@ -28,7 +32,7 @@ public class UI extends Application {
         gameLoop();
     }
 
-    private void setUI (Stage gameStage) throws Exception {
+    private void setUI(Stage gameStage) throws Exception {
         gameStage.setTitle("Tetris");
         gameStage.setMinHeight(0);
         gameStage.setMinWidth(0);
@@ -40,20 +44,27 @@ public class UI extends Application {
         lastBlockTypes.add(null);
         lastBlockTypes.add(null);
 
-
         currentBlock = new Block(BlockType.getRandomBlockType());
-
-        placeBlock();
     }
 
     private void gameLoop() {
-        while (running) {
+        Task<Void> task = new Task<Void>() {
+            @Override
+            public Void call() throws Exception {
+                    // game step
+                Thread.sleep(10);
+                    // draw
+                return null;
+            }
+        };
+        task.setOnSucceeded(event -> {
+                currentBlock.drawT(pane);
+                if (running) {
+                    new Thread(task).start();
+                }
+        });
 
-
-            // game step
-
-            // draw
-        }
+        new Thread(task).run();
     }
 
     private void placeBlock() throws Exception {

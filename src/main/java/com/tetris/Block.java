@@ -1,5 +1,8 @@
 package com.tetris;
 
+import javafx.scene.Group;
+import javafx.scene.layout.Pane;
+
 public class Block {
     public Tile[] tiles;
     private int rotation;
@@ -10,6 +13,12 @@ public class Block {
 
     public Block(BlockType type) {
         this.type = type;
+        this.tiles = new Tile[] {
+                new Tile(1,1,1,1),
+                new Tile(2,1,1,1),
+                new Tile(3,1,1,1),
+                new Tile(4,1,1,1),
+        };
         rotation = 0;
     }
 
@@ -35,9 +44,9 @@ public class Block {
         return type;
     }
 
-    public void drawT() {
+    public void drawT(Pane pane) {
         for (Tile tile : tiles) {
-            tile.drawTile();
+            tile.drawTile(pane);
         }
     }
 
