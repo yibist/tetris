@@ -1,6 +1,5 @@
 package com.tetris;
 
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.scene.Group;
@@ -23,7 +22,6 @@ public class UI extends Application {
     Group root = new Group();
     Scene gameScene = new Scene(pane);
     Block currentBlock;
-    BlockType nextBlockType;
     ArrayList<Block> placedBlocks = new ArrayList<>();
     LinkedList<BlockType> lastBlockTypes = new LinkedList<>();
 
@@ -56,14 +54,14 @@ public class UI extends Application {
     }
 
     private void gameLoop() {
-        Task<Void> task = new Task<Void>() {
+        Task<Void> task = new Task<>() {
             @Override
             public Void call() throws Exception {
                 Thread.sleep(25);
                 return null;
             }
         };
-        task.setOnSucceeded(event -> {
+        task.setOnSucceeded(_ -> {
             // game step
             // draw
             pane.getChildren().clear();
