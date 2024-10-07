@@ -35,8 +35,9 @@ public class UI extends Application {
 
     private void setUI(Stage gameStage) throws Exception {
         gameStage.setTitle("Tetris");
-        gameStage.setMinHeight(0);
-        gameStage.setMinWidth(0);
+        gameStage.setHeight(800);
+        gameStage.setWidth(480);
+        gameStage.setResizable(false);
         gameStage.setScene(gameScene);
         gameStage.show();
 
@@ -67,11 +68,11 @@ public class UI extends Application {
             // draw
             pane.getChildren().clear();
             currentBlock.drawT(pane);
-            try {
+            /*try {
                 NewBlock();
             } catch (Exception e) {
                 throw new RuntimeException(e);
-            }
+            }*/
             //TODO Figure out how tf multithreading works to avoid doing this
             if (running) gameLoop();
         });
