@@ -35,47 +35,50 @@ public enum BlockType {
     }
 
     public static BlockType getRandomBlockType(LinkedList<BlockType> lastElements) throws Exception {
+        if (lastElements.isEmpty()){
+            return getRandomBlockType();
+        }
         int randInt = new Random().nextInt(7);
         switch(randInt){
             case 0: {
                 if(lastElements.contains(BlockType.LShape)){
-                    return getRandomBlockType();
+                    return getRandomBlockType(lastElements);
                 }
                 return BlockType.LShape;
             }
             case 1: {
                 if(lastElements.contains(BlockType.LShapeFlipped)){
-                    return getRandomBlockType();
+                    return getRandomBlockType(lastElements);
                 }
                 return BlockType.LShapeFlipped;
             }
             case 2: {
                 if(lastElements.contains(BlockType.TShape)){
-                    return getRandomBlockType();
+                    return getRandomBlockType(lastElements);
                 }
                 return BlockType.TShape;
             }
             case 3: {
                 if(lastElements.contains(BlockType.Straight)){
-                    return getRandomBlockType();
+                    return getRandomBlockType(lastElements);
                 }
                 return BlockType.Straight;
             }
             case 4: {
                 if(lastElements.contains(BlockType.ZShape)){
-                    return getRandomBlockType();
+                    return getRandomBlockType(lastElements);
                 }
                 return BlockType.ZShape;
             }
             case 5: {
                 if(lastElements.contains(BlockType.ZShapeFlipped)){
-                    return getRandomBlockType();
+                    return getRandomBlockType(lastElements);
                 }
                 return BlockType.ZShapeFlipped;
             }
             case 6: {
                 if(lastElements.contains(BlockType.Square)){
-                    return getRandomBlockType();
+                    return getRandomBlockType(lastElements);
                 }
                 return BlockType.Square;
             }

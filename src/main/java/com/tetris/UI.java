@@ -38,7 +38,6 @@ public class UI extends Application {
 
     private void gameLoop() {
         while (running) {
-            
         }
     }
 
