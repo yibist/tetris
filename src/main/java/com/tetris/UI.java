@@ -25,6 +25,11 @@ public class UI extends Application {
     ArrayList<Block> placedBlocks = new ArrayList<>();
     LinkedList<BlockType> lastBlockTypes = new LinkedList<>();
 
+    //clock
+    private int timePassed = 0;
+    private long lastFrameTime = System.currentTimeMillis();
+    private int timeNeeded = 1000;
+
     @Override
     public void start(Stage gameStage) throws Exception {
         setUI(gameStage);
@@ -54,6 +59,8 @@ public class UI extends Application {
     }
 
     private void gameLoop() {
+
+
         Task<Void> task = new Task<>() {
             @Override
             public Void call() throws Exception {
@@ -66,8 +73,24 @@ public class UI extends Application {
             // draw
             pane.getChildren().clear();
             currentBlock.drawT(pane);
+
+
+
             try {
-                NewBlock();
+                //clock
+                timePassed += (int) (System.currentTimeMillis()-lastFrameTime);
+                lastFrameTime = System.currentTimeMillis();
+
+
+
+
+
+                //gameTick actions
+                if (timePassed > timeNeeded) {
+                    currentBlock.y++;
+                    timePassed = 0;
+                }
+
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

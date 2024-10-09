@@ -45,7 +45,7 @@ public class Block {
 
     public void drawT(Pane pane) {
         for (Tile tile : tiles) {
-            tile.drawTile(pane);
+            tile.drawTile(pane, this.x, this.y);
         }
     }
 
