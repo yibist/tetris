@@ -1,7 +1,6 @@
 package com.tetris;
 
 import javafx.scene.layout.Pane;
-
 import java.util.Collection;
 
 public class Block {
