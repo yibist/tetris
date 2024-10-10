@@ -107,11 +107,11 @@ public class Block {
      * @param limitY
      * The limit to how far a block can move down before stopping.
      */
-    public void move(String direction, Collection<Tile> placedTiles, int limitY) {
+    public void move(String direction, Collection<Tile> placedTiles, int limitY, int limitX) {
             for (Tile tile : tiles) {
                 tile.move(direction);
             }
-            checkCollision(placedTiles, limitY);
+            checkCollision(placedTiles, limitY, limitX);
     }
 
     /**
@@ -119,20 +119,45 @@ public class Block {
      * @param placedTiles
      * A collection of already placed Tiles to be used for determining if a tile on tile collision would take place.
      * @param limitY
-     * the limit for the y coordinate to be used if no block collisions take place.
+     * The limit for the y coordinate to be used if no block collisions take place.
+     * @param limitX
+     * The limit for the x coordinate to be used if no block collisions take place.
+     * @param direction
+     * Direction of the movement.
      */
-    public boolean checkCollision(Collection<Tile> placedTiles, int limitY) {
+    public boolean checkCollision(Collection<Tile> placedTiles, int limitY, int limitX, String direction) {
+        direction = direction.toLowerCase();
         for (Tile tile : tiles) {
+            if (tile.y+(Tile.size*2) >= limitY && direction.equals("down")) {
+                return false;
+            } else if (tile.x - Tile.size <= -(Tile.size) && direction.equals("left")) {
+                return false;
+            } else if (tile.x + Tile.size > limitX-Tile.size && direction.equals("right")) {
+                return false;
+            }
             for (Tile otherTile : placedTiles) {
-                //TODO fix collision so that it doesnt only detect the down direction
-                if (tile.y + Tile.size == otherTile.y && tile.x == otherTile.x) {
+                if (tile.y + Tile.size == otherTile.y && tile.x == otherTile.x && direction.equals("down")) {
+                    return false;
+                } else if (tile.x + Tile.size == otherTile.x && tile.y == otherTile.y && direction.equals("right")) {
+                    return false;
+                } else if (tile.x - Tile.size == otherTile.x && tile.y == otherTile.y && direction.equals("left")) {
                     return false;
                 }
             }
-            if (tile.y+(Tile.size*2) >= limitY) {
-                return false;
-            }
         }
         return true;
+    }
+
+    /**
+     * Checks for Collisions between tiles and any edges or tiles that may block movement and rotation.
+     * @param placedTiles
+     * A collection of already placed Tiles to be used for determining if a tile on tile collision would take place.
+     * @param limitY
+     * The limit for the y coordinate to be used if no block collisions take place.
+     * @param limitX
+     * The limit for the x coordinate to be used if no block collisions take place.
+     */
+    public boolean checkCollision(Collection<Tile> placedTiles, int limitY, int limitX) {
+        return checkCollision(placedTiles, limitY, limitX, "down");
     }
 }

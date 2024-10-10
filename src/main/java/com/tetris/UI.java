@@ -93,21 +93,26 @@ public class UI extends Application {
         gameStage.setScene(gameScene);
         gameStage.show();
 
-        lastBlockTypes.add(null);
-        lastBlockTypes.add(null);
-        lastBlockTypes.add(null);
+        for (int i = 0; i < 3; i++) {
+            lastBlockTypes.add(null);
+        }
         NewBlock();
 
         gameScene.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.A) {
-                currentBlock.move("left");
+            if (e.getCode() == KeyCode.A || e.getCode() == KeyCode.LEFT) {
+                if(currentBlock.checkCollision(placedTiles, height, width, "left")) {
+                    currentBlock.move("left");
+                }
             }
-            if (e.getCode() == KeyCode.D) {
-                currentBlock.move("right");
+            if (e.getCode() == KeyCode.D || e.getCode() == KeyCode.RIGHT) {
+                if(currentBlock.checkCollision(placedTiles, height, width, "right")) {
+                    currentBlock.move("right");
+                }
             }
-            if (e.getCode() == KeyCode.S) {
-                if(currentBlock.checkCollision(placedTiles, height))
+            if (e.getCode() == KeyCode.S || e.getCode() == KeyCode.DOWN) {
+                if(currentBlock.checkCollision(placedTiles, height, width)) {
                     currentBlock.move("down");
+                }
             }
         });
     }
@@ -148,8 +153,8 @@ public class UI extends Application {
 
                 //gameTick actions
                 if (timePassed > timeNeeded) {
-                    if (currentBlock.checkCollision(placedTiles, height)) {
-                        currentBlock.move("down", placedTiles, height);
+                    if (currentBlock.checkCollision(placedTiles, height, width)) {
+                        currentBlock.move("down");
                     } else {
                         placeBlock();
                     }
