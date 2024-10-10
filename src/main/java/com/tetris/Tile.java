@@ -11,21 +11,21 @@ public class Tile {
     public static Image image = new Image("Tile.png", 32.0d, 32.0d, true, true);
 
     Tile(int x, int y, int size) {
-        this.x = x;
-        this.y = y;
+        this.x = x * size;
+        this.y = y * size;
         this.size = size;
     }
 
-    public void drawTile(Pane pane, int x, int y) {
+    public void drawTile(Pane pane) {
         ImageView imageView = new ImageView(image);
-        imageView.setX((this.x + x) * this.size);
-        imageView.setY((this.y + y) * this.size);
+        imageView.setX(this.x);
+        imageView.setY(this.y);
 
         pane.getChildren().add(imageView);
     }
 
     public void move(String direction) {
-        switch (direction) {
+        switch ((direction.toLowerCase())) {
             case "down":
                 y += size;
                 break;

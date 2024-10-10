@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 
 public class UI extends Application {
@@ -22,13 +23,17 @@ public class UI extends Application {
     Group root = new Group();
     Scene gameScene = new Scene(pane);
     Block currentBlock;
-    ArrayList<Block> placedBlocks = new ArrayList<>();
+    ArrayList<Tile> placedTiles = new ArrayList<>();
     LinkedList<BlockType> lastBlockTypes = new LinkedList<>();
+
+    // Window/grid size
+    private final int height = 800;
+    private final int width = 400;
 
     //clock
     private int timePassed = 0;
     private long lastFrameTime = System.currentTimeMillis();
-    private int timeNeeded = 1000;
+    private int timeNeeded = 250;
 
     @Override
     public void start(Stage gameStage) throws Exception {
@@ -38,8 +43,8 @@ public class UI extends Application {
 
     private void setUI(Stage gameStage) throws Exception {
         gameStage.setTitle("Tetris");
-        gameStage.setHeight(800);
-        gameStage.setWidth(480);
+        gameStage.setHeight(height);
+        gameStage.setWidth(width);
         gameStage.setResizable(false);
         gameStage.setScene(gameScene);
         gameStage.show();
@@ -59,8 +64,6 @@ public class UI extends Application {
     }
 
     private void gameLoop() {
-
-
         Task<Void> task = new Task<>() {
             @Override
             public Void call() throws Exception {
@@ -73,6 +76,7 @@ public class UI extends Application {
             // draw
             pane.getChildren().clear();
             currentBlock.drawT(pane);
+            drawAll();
 
 
 
@@ -81,13 +85,13 @@ public class UI extends Application {
                 timePassed += (int) (System.currentTimeMillis()-lastFrameTime);
                 lastFrameTime = System.currentTimeMillis();
 
-
-
-
-
                 //gameTick actions
                 if (timePassed > timeNeeded) {
-                    currentBlock.y++;
+                    if(currentBlock.moving){
+                        currentBlock.move("down", placedTiles, height);
+                    } else {
+                        placeBlock();
+                    }
                     timePassed = 0;
                 }
 
@@ -100,14 +104,14 @@ public class UI extends Application {
         new Thread(task).start();
     }
 
+    private void drawAll(){
+        for(Tile tile: placedTiles){
+            tile.drawTile(pane);
+        }
+    }
+
     private void placeBlock() throws Exception {
-        placedBlocks.add(currentBlock);
-        lastBlockTypes.add(currentBlock.getBlockType());
-        lastBlockTypes.removeFirst();
-        currentBlock = new Block(BlockType.getRandomBlockType(lastBlockTypes), 0, 0);
-
-
-        // block check
-        // new block to next block
+        placedTiles.addAll(List.of(currentBlock.tiles));
+        NewBlock();
     }
 }
