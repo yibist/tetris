@@ -2,8 +2,11 @@ package com.tetris;
 
 import javafx.application.Application;
 import javafx.concurrent.Task;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -54,6 +57,18 @@ public class UI extends Application {
         lastBlockTypes.add(null);
         lastBlockTypes.add(null);
         NewBlock();
+        gameScene.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.A) {
+                currentBlock.move("left");
+            }
+            if (e.getCode() == KeyCode.D) {
+                currentBlock.move("right");
+            }
+            if (e.getCode() == KeyCode.S) {
+                if(currentBlock.checkCollision(placedTiles, height))
+                    currentBlock.move("down");
+            }
+        });
     }
 
     private void NewBlock() {
