@@ -84,7 +84,10 @@ public class Block {
     /**
      * Moves all the tiles that are associated with the current block in the specified direction.<br> **Does not have collision detection of any sort**
      * @param direction
-     * The direction of movement valid inputs are "left", "right" and "down". This parameter is not case-sensitive.
+     * The direction of movement.<br>
+     * Valid inputs are:
+     * <li>left</li> <li>right</li> <li>down</li>
+     * **This parameter is not case-sensitive**.
      */
     public void move(String direction) {
             for (Tile tile : tiles) {
@@ -95,7 +98,10 @@ public class Block {
     /**
      * Moves all the tiles that are associated with the current block in the specified direction.
      * @param direction
-     * The direction of movement valid inputs are "left", "right" and "down". This parameter is not case-sensitive.
+     * The direction of movement.<br>
+     * Valid inputs are:
+     * <li>left</li> <li>right</li> <li>down</li>
+     * **This parameter is not case-sensitive**.
      * @param placedTiles
      * A collection of placed tiles to be used for determining tile on tile collision.
      * @param limitY

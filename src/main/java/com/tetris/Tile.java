@@ -52,7 +52,10 @@ public class Tile {
     /**
      * Moves the tile in the specified direction.
      * @param direction
-     * The direction of movement valid inputs are "left", "right" and "down". This parameter is not case-sensitive.
+     * The direction of movement.<br>
+     * Valid inputs are:
+     * <li>left</li> <li>right</li> <li>down</li>
+     * **This parameter is not case-sensitive**.
      */
     public void move(String direction) {
         switch ((direction.toLowerCase())) {
