@@ -7,13 +7,12 @@ import javafx.scene.layout.Pane;
 public class Tile {
     public int x;
     public int y;
-    public int size;
-    public static Image image = new Image("Tile.png", 32.0d, 32.0d, true, true);
+    public static final int size = 32;
+    public static Image image = new Image("Tile.png", Tile.size, Tile.size, true, true);
 
-    Tile(int x, int y, int size) {
+    Tile(int x, int y) {
         this.x = x * size;
         this.y = y * size;
-        this.size = size;
     }
 
     public void drawTile(Pane pane) {

@@ -17,13 +17,6 @@ public class Block {
      * <li>3 - left</li>
      */
     private int rotation;
-    /**
-     * If the tiles in the block have or have not hit a blocker of some sort in the y direction.<br><br>
-     * Some valid blockers are:
-     * <li>The y coordinate limit</li>
-     * <li>Other tiles</li>
-     */
-    public boolean moving = true;
 
     /**
      * Creates a new block with a set of tiles and the default rotation.
@@ -50,7 +43,7 @@ public class Block {
         tiles = new Tile[type.getTileCount()];
 
         for (int i = 0; i < type.initialTilePositions.length; i++){
-            tiles[i] = new Tile(type.initialTilePositions[i][0]+x, type.initialTilePositions[i][1]+y,32);
+            tiles[i] = new Tile(type.initialTilePositions[i][0]+x, type.initialTilePositions[i][1]+y);
         }
 
         this.rotation = rotation;
@@ -94,11 +87,9 @@ public class Block {
      * The direction of movement valid inputs are "left", "right" and "down". This parameter is not case-sensitive.
      */
     public void move(String direction) {
-        if (moving) {
             for (Tile tile : tiles) {
                 tile.move(direction);
             }
-        }
     }
 
     /**
@@ -111,12 +102,10 @@ public class Block {
      * The limit to how far a block can move down before stopping.
      */
     public void move(String direction, Collection<Tile> placedTiles, int limitY) {
-        if (moving) {
             for (Tile tile : tiles) {
                 tile.move(direction);
             }
             checkCollision(placedTiles, limitY);
-        }
     }
 
     /**
@@ -126,22 +115,18 @@ public class Block {
      * @param limitY
      * the limit for the y coordinate to be used if no block collisions take place.
      */
-    public void checkCollision(Collection<Tile> placedTiles, int limitY) {
+    public boolean checkCollision(Collection<Tile> placedTiles, int limitY) {
         for (Tile tile : tiles) {
             for (Tile otherTile : placedTiles) {
                 //TODO fix collision so that it doesnt only detect the down direction
-                if (tile.y + tile.size == otherTile.y && tile.x == otherTile.x) {
-                    moving = false;
-                    break;
+                if (tile.y + Tile.size == otherTile.y && tile.x == otherTile.x) {
+                    return false;
                 }
             }
-            if (tile.y+(tile.size*2) >= limitY) {
-                moving = false;
-                break;
-            }
-            if (!moving){
-                break;
+            if (tile.y+(Tile.size*2) >= limitY) {
+                return false;
             }
         }
+        return true;
     }
 }

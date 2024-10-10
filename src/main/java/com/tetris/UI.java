@@ -27,13 +27,14 @@ public class UI extends Application {
     LinkedList<BlockType> lastBlockTypes = new LinkedList<>();
 
     // Window/grid size
-    private final int height = 800;
-    private final int width = 400;
+    private final static int height = 800;
+    private final static int width = 400;
+    public final static int tileSize = 32;
 
     //clock
     private int timePassed = 0;
     private long lastFrameTime = System.currentTimeMillis();
-    private int timeNeeded = 250;
+    private final int timeNeeded = 250;
 
     @Override
     public void start(Stage gameStage) throws Exception {
@@ -49,18 +50,17 @@ public class UI extends Application {
         gameStage.setScene(gameScene);
         gameStage.show();
 
+        lastBlockTypes.add(null);
+        lastBlockTypes.add(null);
+        lastBlockTypes.add(null);
         NewBlock();
     }
 
     private void NewBlock() {
         BlockType currentBlockType = BlockType.getRandomBlockType(lastBlockTypes);
-        currentBlock = new Block(currentBlockType, 0,0);
-        if (lastBlockTypes.size() >= 3) {
-            lastBlockTypes.removeFirst();
-            lastBlockTypes.add(currentBlockType);
-        } else {
-            lastBlockTypes.add(currentBlockType);
-        }
+        currentBlock = new Block(currentBlockType, 0, 0);
+        lastBlockTypes.removeFirst();
+        lastBlockTypes.add(currentBlockType);
     }
 
     private void gameLoop() {
@@ -79,15 +79,14 @@ public class UI extends Application {
             drawAll();
 
 
-
             try {
                 //clock
-                timePassed += (int) (System.currentTimeMillis()-lastFrameTime);
+                timePassed += (int) (System.currentTimeMillis() - lastFrameTime);
                 lastFrameTime = System.currentTimeMillis();
 
                 //gameTick actions
                 if (timePassed > timeNeeded) {
-                    if(currentBlock.moving){
+                    if (currentBlock.checkCollision(placedTiles, height)) {
                         currentBlock.move("down", placedTiles, height);
                     } else {
                         placeBlock();
@@ -104,8 +103,8 @@ public class UI extends Application {
         new Thread(task).start();
     }
 
-    private void drawAll(){
-        for(Tile tile: placedTiles){
+    private void drawAll() {
+        for (Tile tile : placedTiles) {
             tile.drawTile(pane);
         }
     }
