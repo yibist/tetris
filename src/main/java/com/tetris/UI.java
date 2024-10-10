@@ -52,7 +52,7 @@ public class UI extends Application {
         NewBlock();
     }
 
-    private void NewBlock() throws Exception {
+    private void NewBlock() {
         BlockType currentBlockType = BlockType.getRandomBlockType(lastBlockTypes);
         currentBlock = new Block(currentBlockType, 0,0);
         if (lastBlockTypes.size() >= 3) {

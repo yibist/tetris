@@ -16,12 +16,12 @@ public enum BlockType {
     private final int tileCount;
     public final int[][] initialTilePositions;
 
-    BlockType(int tileCount, int[][] intitialTilePositions) {
+    BlockType(int tileCount, int[][] initialTilePositions) {
         this.tileCount = tileCount;
-        this.initialTilePositions = intitialTilePositions;
+        this.initialTilePositions = initialTilePositions;
     }
 
-    public static BlockType getRandomBlockType() throws Exception {
+    public static BlockType getRandomBlockType() {
         int randInt = new Random().nextInt(7);
         return switch (randInt) {
             case 0 -> BlockType.LShape;
@@ -31,11 +31,11 @@ public enum BlockType {
             case 4 -> BlockType.ZShape;
             case 5 -> BlockType.ZShapeFlipped;
             case 6 -> BlockType.Square;
-            default -> throw new Exception("No such block type associated with number: " + randInt);
+            default -> throw new IllegalStateException("Unexpected value: " + randInt);
         };
     }
 
-    public static BlockType getRandomBlockType(BlockType lastElement) throws Exception {
+    public static BlockType getRandomBlockType(BlockType lastElement) {
         int randInt = new Random().nextInt(7);
         return switch (randInt) {
             case 0 -> {
@@ -80,11 +80,11 @@ public enum BlockType {
                 }
                 yield BlockType.Square;
             }
-            default -> throw new Exception("No such block type associated with number: " + randInt);
+            default -> throw new IllegalStateException("Unexpected value: " + randInt);
         };
     }
 
-    public static BlockType getRandomBlockType(List<BlockType> lastElements) throws Exception {
+    public static BlockType getRandomBlockType(List<BlockType> lastElements) {
         if (lastElements.isEmpty()){
             return getRandomBlockType();
         }
@@ -132,7 +132,7 @@ public enum BlockType {
                 }
                 yield BlockType.Square;
             }
-            default -> throw new Exception("No such block type associated with number: " + randInt);
+            default -> throw new IllegalStateException("Unexpected value: " + randInt);
         };
     }
 
