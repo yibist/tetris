@@ -17,7 +17,7 @@ public class UI extends Application {
     /**
      * Whether the game is running or not
      */
-    private static boolean running = true;
+    private static final boolean running = true;
 
     public static void main(String[] args) {
         launch(args);
@@ -51,10 +51,10 @@ public class UI extends Application {
      */
     private final static int height = 800;
     /**
-     * **MUST BE 10 HIGHER THAN A MULTIPLE OF TILESIZE**<br>
+     * **MUST BE 16 HIGHER THAN A MULTIPLE OF TILESIZE**<br>
      * Width of the window.
      */
-    private final static int width = 330;
+    private final static int width = 336;
 
     //clock
     /**
@@ -185,6 +185,7 @@ public class UI extends Application {
      */
     private void placeBlock() {
         placedTiles.addAll(List.of(currentBlock.tiles));
+        postPlacementChecks();
         NewBlock();
     }
 
@@ -192,7 +193,7 @@ public class UI extends Application {
      * Deletes all placed Tiles at specified y values of the screen.
      */
     //TBD = To be deleted
-    private void deleteRow(Collection<Integer> rowsTBD){
+    private void deleteRows(Collection<Integer> rowsTBD){
         ArrayList<Tile> tilesTBD = new ArrayList<>();
 
         if (!rowsTBD.isEmpty()) {
@@ -213,26 +214,26 @@ public class UI extends Application {
      * Returns a collection of y values that are complete rows and therefore need to be removed.
      */
     private Collection<Integer> getAllRowsTBD(){
-        int tempY = 0;
         int count = 0;
 
         ArrayList<Integer> returnVal = new ArrayList<>();
+        for (Tile tile: placedTiles) {
+            if(!returnVal.contains(tile.y)){
+                returnVal.add(tile.y);
+            }
+        }
 
-        for (Tile tile : placedTiles) {
-            if(tempY != tile.y){
-                tempY = tile.y;
-                count = 0;
-            } else {
-                count++;
+        for (int i = returnVal.size()-1; i >= 0; i--) {
+            for (Tile tile: placedTiles) {
+                if (tile.y == returnVal.get(i)) count++;
+                if(count >= ((height-16) / Tile.size)){
+                    break;
+                }
             }
-            if(count >= ((height-10) / Tile.size)){
-                returnVal.add(tempY);
-                tempY = 0;
-                count = 0;
+            if(count < ((height-16) / Tile.size)){
+                returnVal.remove(returnVal.get(i));
             }
-            if(tempY < 0){
-                break;
-            }
+            count = 0;
         }
         return returnVal;
     }
@@ -258,5 +259,17 @@ public class UI extends Application {
 
         // loop through all valid tiles and moves them down then check again, but only for the moved tiles
         // to not do excessive calculations for things that have already been calculated.
+    }
+
+    /**
+     * Runs all checks and operations that should happen after a block is placed.
+     */
+    private void postPlacementChecks(){
+        ArrayList<Integer> rowsTBD = new ArrayList<>(getAllRowsTBD());
+        while(!rowsTBD.isEmpty()){
+            deleteRows(rowsTBD);
+            postDelMove();
+            rowsTBD = new ArrayList<>(getAllRowsTBD());
+        }
     }
 }
