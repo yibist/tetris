@@ -217,7 +217,7 @@ public class UI extends Application {
         int count = 0;
 
         ArrayList<Integer> returnVal = new ArrayList<>();
-        for (Tile tile: placedTiles) {
+        for (Tile tile: currentBlock.tiles) {
             if(!returnVal.contains(tile.y)){
                 returnVal.add(tile.y);
             }
