@@ -1,4 +1,6 @@
-com\tetris\block.class
+com\tetris\UI$1.class
+com\tetris\BlockType.class
+module-info.class
+com\tetris\Block.class
 com\tetris\UI.class
-com\tetris\BlockTypes.class
-com\tetris\Main.class
+com\tetris\Tile.class
