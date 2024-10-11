@@ -8,6 +8,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -50,10 +51,10 @@ public class UI extends Application {
      */
     private final static int height = 800;
     /**
-     * **MUST BE DIVISIBLE BY TILESIZE**<br>
+     * **MUST BE 10 HIGHER THAN A MULTIPLE OF TILESIZE**<br>
      * Width of the window.
      */
-    private final static int width = 400;
+    private final static int width = 330;
 
     //clock
     /**
@@ -185,5 +186,77 @@ public class UI extends Application {
     private void placeBlock() {
         placedTiles.addAll(List.of(currentBlock.tiles));
         NewBlock();
+    }
+
+    /**
+     * Deletes all placed Tiles at specified y values of the screen.
+     */
+    //TBD = To be deleted
+    private void deleteRow(Collection<Integer> rowsTBD){
+        ArrayList<Tile> tilesTBD = new ArrayList<>();
+
+        if (!rowsTBD.isEmpty()) {
+            for (Tile tile: placedTiles) {
+                if(rowsTBD.contains(tile.y)){
+                    tilesTBD.add(tile);
+                }
+            }
+            for (Tile tile: tilesTBD) {
+                placedTiles.remove(tile);
+            }
+        }
+    }
+
+    /**
+     * Searches for all complete rows that need to be removed.
+     * @return
+     * Returns a collection of y values that are complete rows and therefore need to be removed.
+     */
+    private Collection<Integer> getAllRowsTBD(){
+        int tempY = 0;
+        int count = 0;
+
+        ArrayList<Integer> returnVal = new ArrayList<>();
+
+        for (Tile tile : placedTiles) {
+            if(tempY != tile.y){
+                tempY = tile.y;
+                count = 0;
+            } else {
+                count++;
+            }
+            if(count >= ((height-10) / Tile.size)){
+                returnVal.add(tempY);
+                tempY = 0;
+                count = 0;
+            }
+            if(tempY < 0){
+                break;
+            }
+        }
+        return returnVal;
+    }
+
+    /**
+     * Moves all tiles that fit certain characteristics such as:
+     * <li>No tiles directly next to it that have empty spaces below them</li>
+     * <li>have empty space below them</li>
+     */
+    private void postDelMove(){
+        // ntc = needs to check
+        // ntc to check through all tiles so probably a for(Tile tile: placedTiles) loop.
+        // would probably need a second one for going through the tiles again
+
+        // ntc for space below it (if that is false it can move straight to the next tile in the array).
+        // something like if(tile.y + Tile.size != otherTile.y && tile.x == otherTile.x)
+        // will need to store all the tiles that fulfill the requirements
+
+        // ntc if there are tiles right next to it and that those fulfill the same requirements.
+        // if the current block has an empty space below it but has neighbors directly above or to the left/right
+        // the neighbors will have to be checked for all the other requirements other than the one they were flagged for
+        // (if its above check for bellow it won't be run, if its to one of the sides it won't check for that side).
+
+        // loop through all valid tiles and moves them down then check again, but only for the moved tiles
+        // to not do excessive calculations for things that have already been calculated.
     }
 }

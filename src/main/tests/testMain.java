@@ -1,10 +1,12 @@
 import com.tetris.*;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class testMain {
     @Test
-    public void testRandomizers() throws Exception {
+    public void testRandomizers() {
         for (int k = 0; k < 100; k++) {
             LinkedList<BlockType> prevElements = new LinkedList<>();
             for (int i = 0; i < 7; i++) {

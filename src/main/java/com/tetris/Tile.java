@@ -31,7 +31,7 @@ public class Tile {
      * @param y
      * y position of tile
      */
-    Tile(int x, int y) {
+    public Tile(int x, int y) {
         this.x = x * size;
         this.y = y * size;
     }
