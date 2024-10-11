@@ -217,7 +217,7 @@ public class UI extends Application {
         int count = 0;
 
         ArrayList<Integer> returnVal = new ArrayList<>();
-        for (Tile tile: currentBlock.tiles) {
+        for (Tile tile: placedTiles) {
             if(!returnVal.contains(tile.y)){
                 returnVal.add(tile.y);
             }
@@ -226,11 +226,11 @@ public class UI extends Application {
         for (int i = returnVal.size()-1; i >= 0; i--) {
             for (Tile tile: placedTiles) {
                 if (tile.y == returnVal.get(i)) count++;
-                if(count >= ((height-16) / Tile.size)){
+                if(count >= ((width-16) / Tile.size)){
                     break;
                 }
             }
-            if(count < ((height-16) / Tile.size)){
+            if(count < ((width-16) / Tile.size)){
                 returnVal.remove(returnVal.get(i));
             }
             count = 0;
