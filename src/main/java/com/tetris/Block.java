@@ -16,6 +16,11 @@ public class Block {
      * <li>3 - left</li>
      */
     private int rotation;
+    /**
+     * The type of the block. <br>
+     * Valid block-types can be found in {@link com.tetris.BlockType}.
+     */
+    public BlockType type;
 
     /**
      * Creates a new block with a set of tiles and the default rotation.
@@ -40,6 +45,7 @@ public class Block {
      */
     public Block(BlockType type, int x, int y, int rotation) {
         tiles = new Tile[type.getTileCount()];
+        this.type = type;
 
         for (int i = 0; i < type.initialTilePositions.length; i++){
             tiles[i] = new Tile(type.initialTilePositions[i][0]+x, type.initialTilePositions[i][1]+y);
