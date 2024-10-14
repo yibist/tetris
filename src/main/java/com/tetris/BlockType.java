@@ -1,6 +1,6 @@
 package com.tetris;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Random;
 
 /**
@@ -66,11 +66,11 @@ public enum BlockType {
      * @param lastElements
      * List of shapes to not be generated.
      */
-    public static BlockType getRandomBlockType(List<BlockType> lastElements) {
+    public static BlockType getRandomBlockType(Collection<BlockType> lastElements) {
         if (lastElements.isEmpty()){
             return getRandomBlockType();
         }
-        int randInt = new Random().nextInt(7);
+        int randInt = new Random().nextInt(values().length);
         if(lastElements.contains(values()[randInt])) {
             return getRandomBlockType(lastElements);
         }
