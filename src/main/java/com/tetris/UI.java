@@ -38,7 +38,7 @@ public class UI extends Application {
     /**
      * All placed tiles that are no longer moving and can be destroyed.
      */
-    ArrayList<Tile> placedTiles = new ArrayList<>();
+    ArrayList<Block> placedBlocks = new ArrayList<>();
     /**
      * Previously placed shapes.
      */
@@ -72,7 +72,7 @@ public class UI extends Application {
 
     /**
      * @param gameStage the primary stage for this application, onto which
-     * the application scene can be set.
+     *                  the application scene can be set.
      */
     @Override
     public void start(Stage gameStage) {
@@ -82,9 +82,9 @@ public class UI extends Application {
 
     /**
      * Initialization method for display and base variables
-     * @param gameStage
-     * the primary stage for this application, onto which
-     * the application scene can be set.
+     *
+     * @param gameStage the primary stage for this application, onto which
+     *                  the application scene can be set.
      */
     private void setUI(Stage gameStage) {
         gameStage.setTitle("Tetris");
@@ -101,19 +101,22 @@ public class UI extends Application {
 
         gameScene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.A || e.getCode() == KeyCode.LEFT) {
-                if(currentBlock.checkCollision(placedTiles, height, width, "left")) {
+                if (currentBlock.checkCollision(placedBlocks, height, width, "left")) {
                     currentBlock.move("left");
                 }
             }
             if (e.getCode() == KeyCode.D || e.getCode() == KeyCode.RIGHT) {
-                if(currentBlock.checkCollision(placedTiles, height, width, "right")) {
+                if (currentBlock.checkCollision(placedBlocks, height, width, "right")) {
                     currentBlock.move("right");
                 }
             }
             if (e.getCode() == KeyCode.S || e.getCode() == KeyCode.DOWN) {
-                if(currentBlock.checkCollision(placedTiles, height, width)) {
+                if (currentBlock.checkCollision(placedBlocks, height, width)) {
                     currentBlock.move("down");
                 }
+            }
+            if (e.getCode() == KeyCode.W || e.getCode() == KeyCode.UP) {
+                currentBlock.rotate();
             }
         });
     }
@@ -144,6 +147,7 @@ public class UI extends Application {
             // draw
             pane.getChildren().clear();
             currentBlock.drawT(pane);
+            System.out.println(currentBlock.y);
             drawAll();
 
 
@@ -154,7 +158,7 @@ public class UI extends Application {
 
                 //gameTick actions
                 if (timePassed > timeNeeded) {
-                    if (currentBlock.checkCollision(placedTiles, height, width)) {
+                    if (currentBlock.checkCollision(placedBlocks, height, width)) {
                         currentBlock.move("down");
                     } else {
                         placeBlock();
@@ -175,8 +179,8 @@ public class UI extends Application {
      * Draws all placed tiles on the provided pane
      */
     private void drawAll() {
-        for (Tile tile : placedTiles) {
-            tile.drawTile(pane);
+        for (Block block : placedBlocks) {
+
         }
     }
 
@@ -184,92 +188,7 @@ public class UI extends Application {
      * moves all the tiles from a shape into the placed tiles array and creates a new shape.
      */
     private void placeBlock() {
-        placedTiles.addAll(List.of(currentBlock.tiles));
-        postPlacementChecks();
+        placedBlocks.add(currentBlock);
         NewBlock();
-    }
-
-    /**
-     * Deletes all placed Tiles at specified y values of the screen.
-     */
-    //TBD = To be deleted
-    private void deleteRows(Collection<Integer> rowsTBD){
-        ArrayList<Tile> tilesTBD = new ArrayList<>();
-
-        if (!rowsTBD.isEmpty()) {
-            for (Tile tile: placedTiles) {
-                if(rowsTBD.contains(tile.y)){
-                    tilesTBD.add(tile);
-                }
-            }
-            for (Tile tile: tilesTBD) {
-                placedTiles.remove(tile);
-            }
-        }
-    }
-
-    /**
-     * Searches for all complete rows that need to be removed.
-     * @return
-     * Returns a collection of y values that are complete rows and therefore need to be removed.
-     */
-    private Collection<Integer> getAllRowsTBD(){
-        int count = 0;
-
-        ArrayList<Integer> returnVal = new ArrayList<>();
-        for (Tile tile: placedTiles) {
-            if(!returnVal.contains(tile.y)){
-                returnVal.add(tile.y);
-            }
-        }
-
-        for (int i = returnVal.size()-1; i >= 0; i--) {
-            for (Tile tile: placedTiles) {
-                if (tile.y == returnVal.get(i)) count++;
-                if(count >= ((width-16) / Tile.size)){
-                    break;
-                }
-            }
-            if(count < ((width-16) / Tile.size)){
-                returnVal.remove(returnVal.get(i));
-            }
-            count = 0;
-        }
-        return returnVal;
-    }
-
-    /**
-     * Moves all tiles that fit certain characteristics such as:
-     * <li>No tiles directly next to it that have empty spaces below them</li>
-     * <li>have empty space below them</li>
-     */
-    private void postDelMove(){
-        // ntc = needs to check
-        // ntc to check through all tiles so probably a for(Tile tile: placedTiles) loop.
-        // would probably need a second one for going through the tiles again
-
-        // ntc for space below it (if that is false it can move straight to the next tile in the array).
-        // something like if(tile.y + Tile.size != otherTile.y && tile.x == otherTile.x)
-        // will need to store all the tiles that fulfill the requirements
-
-        // ntc if there are tiles right next to it and that those fulfill the same requirements.
-        // if the current block has an empty space below it but has neighbors directly above or to the left/right
-        // the neighbors will have to be checked for all the other requirements other than the one they were flagged for
-        // (if its above check for bellow it won't be run, if its to one of the sides it won't check for that side).
-
-        // loop through all valid tiles and moves them down then check again, but only for the moved tiles
-        // to not do excessive calculations for things that have already been calculated.
-    }
-
-    /**
-     * Runs all checks and operations that should happen after a block is placed.
-     */
-    private void postPlacementChecks(){
-        ArrayList<Integer> rowsTBD = new ArrayList<>(getAllRowsTBD());
-        while(!rowsTBD.isEmpty()){
-            deleteRows(rowsTBD);
-            postDelMove();
-            rowsTBD = new ArrayList<>(getAllRowsTBD());
-        }
     }
 }

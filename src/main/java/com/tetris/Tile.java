@@ -41,33 +41,12 @@ public class Tile {
      * @param pane
      * Pane tile will be drawn on
      */
-    public void drawTile(Pane pane) {
+    public void drawTile(Pane pane, Block block) {
         ImageView imageView = new ImageView(image);
-        imageView.setX(this.x);
-        imageView.setY(this.y);
+        imageView.setX((this.x + block.x) * Tile.size);
+        imageView.setY((this.y + block.y) * Tile.size);
 
         pane.getChildren().add(imageView);
     }
 
-    /**
-     * Moves the tile in the specified direction.
-     * @param direction
-     * The direction of movement.<br>
-     * Valid inputs are:
-     * <li>left</li> <li>right</li> <li>down</li>
-     * **This parameter is not case-sensitive**.
-     */
-    public void move(String direction) {
-        switch ((direction.toLowerCase())) {
-            case "down":
-                y += size;
-                break;
-            case "left":
-                x -= size;
-                break;
-            case "right":
-                x += size;
-                break;
-        }
-    }
 }
