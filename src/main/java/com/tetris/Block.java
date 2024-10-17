@@ -25,7 +25,7 @@ public class Block {
 
     public int y,x;
 
-    private static int[][] clockwiseRotationMatrix = new int[][]{
+    private static final int[][] clockwiseRotationMatrix = new int[][]{
             {0, -1},
             {1, 0},
     };
@@ -114,24 +114,10 @@ public class Block {
      * @param direction   Direction of the movement.
      */
     public boolean checkCollision(Collection<Block> placedBlocks, int limitY, int limitX, String direction) {
-        direction = direction.toLowerCase();
-        for (Tile tile : tiles) {
-            if (tile.y + (Tile.size * 2) >= limitY && direction.equals("down")) {
-                return false;
-            } else if (tile.x - Tile.size <= -(Tile.size) && direction.equals("left")) {
-                return false;
-            } else if (tile.x + Tile.size > limitX - Tile.size && direction.equals("right")) {
-                return false;
-            }
-            for (Block otherBlock : placedBlocks) {
-                if (tile.y + Tile.size == otherBlock.y && tile.x == otherBlock.x && direction.equals("down")) {
-                    return false;
-                } else if (tile.x + Tile.size == otherBlock.x && tile.y == otherBlock.y && direction.equals("right")) {
-                    return false;
-                } else if (tile.x - Tile.size == otherBlock.x && tile.y == otherBlock.y && direction.equals("left")) {
-                    return false;
-                }
-            }
+        for (Tile tile : this.tiles) {
+            // world boundaries
+            if (tile.x < 0 || tile.x > limitX || tile.y > limitY) return false;
+            for (Block block : placedBlocks) {}
         }
         return true;
     }

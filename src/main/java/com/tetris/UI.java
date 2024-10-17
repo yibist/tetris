@@ -111,7 +111,7 @@ public class UI extends Application {
                 }
             }
             if (e.getCode() == KeyCode.S || e.getCode() == KeyCode.DOWN) {
-                if (currentBlock.checkCollision(placedBlocks, height, width)) {
+                if (currentBlock.checkCollision(placedBlocks, height, width, "down")) {
                     currentBlock.move("down");
                 }
             }
@@ -158,7 +158,7 @@ public class UI extends Application {
 
                 //gameTick actions
                 if (timePassed > timeNeeded) {
-                    if (currentBlock.checkCollision(placedBlocks, height, width)) {
+                    if (currentBlock.checkCollision(placedBlocks, height, width, "down")) {
                         currentBlock.move("down");
                     } else {
                         placeBlock();

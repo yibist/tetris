@@ -32,8 +32,8 @@ public class Tile {
      * y position of tile
      */
     public Tile(int x, int y) {
-        this.x = x * size;
-        this.y = y * size;
+        this.x = x;
+        this.y = y;
     }
 
     /**
